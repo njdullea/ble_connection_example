@@ -40,7 +40,13 @@ class BLE_example: UIViewController, CBCentralManagerDelegate, CBPeripheralDeleg
     
     var switchCount: Int = 0 {
         didSet {
-            switchPressedLabel.text = "\(switchCount)"
+            //make a dispatch queue for this?
+            
+            //switchPressedLabel.text = "\(switchCount)"
+            DispatchQueue.main.async { () -> Void in
+                //self.bleStatusLabel.text = "central manager updates"
+                self.switchPressedLabel.text = "\(self.switchCount)"
+            }
         }
     }
     

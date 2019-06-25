@@ -6,6 +6,7 @@
 
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
+bool switchPressed = false;
 uint8_t value = 0;
 int switchState = 0;
 BLEServer* pServer = NULL;
@@ -118,11 +119,19 @@ void loop() {
     switchState = digitalRead(A2);
 
     if (switchState == HIGH) {
-      value++;
-      pCharacteristicSwitch->setValue(&value, 1);
-      pCharacteristicSwitch->notify();
-      Serial.print("should be updating");
-      delay(100);
+      if (switchPressed == false) {
+        switchPressed = true;
+        value++;
+        pCharacteristicSwitch->setValue(&value, 1);
+        pCharacteristicSwitch->notify();
+        Serial.print("should be updating");
+        delay(100);
+      }
+    }
+    else {
+      if (switchPressed == true) {
+        switchPressed = false;
+      }
     }
   }
 }
